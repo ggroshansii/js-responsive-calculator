@@ -2,8 +2,11 @@
 //selecting groups of buttons (numbers, operators)
 const numberBtns = document.querySelectorAll(".number");
 const operatorBtns = document.querySelectorAll(".operator");
+const equalBtn = document.querySelector(".equal-sign");
 
-//alerts the user of the number that was 'clicked'; Nested inside a 'click' eventlistener
+let calculation = []; 
+
+//alerts the user of the number that is 'clicked'; Nested inside a 'click' eventlistener
 function pushNumber(numElem) {
     alert(`You have clicked number ${numElem}`)
 }
@@ -15,7 +18,7 @@ for (let i=0; i<numberBtns.length; i++) {
     });
 }
 
-//alerts the user of the operator that was 'clicked'; Nested inside a 'click' eventlistener
+//alerts the user of the operator that is 'clicked'; Nested inside a 'click' eventlistener
 function pushOperator(operElem) {
     alert(`You have clicked the ${operElem} operator`);
 }
@@ -26,3 +29,12 @@ for (let i=0; i<operatorBtns.length; i++) {
         pushOperator(operatorBtns[i].value);
     })
 }
+
+//alerts the user when the equals sign is 'clicked'; Nested inside a 'click' eventlistener
+function calculate(equalsElem) { 
+    alert(`The ${equalsElem} sign was pressed`);
+}
+
+equalBtn.addEventListener('click', () => {
+    calculate(equalBtn.value);
+})
