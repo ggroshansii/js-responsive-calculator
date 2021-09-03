@@ -26,7 +26,13 @@ function pushOperator(operElem) {
 for (let i = 0; i < numberBtns.length; i++) {
     numberBtns[i].addEventListener("click", () => {
         pushNumber(numberBtns[i].value);
-        calculatorScreen.value += numberBtns[i].value;
+        console.log("CALCULATION", calculation);
+        if ("+-/*".includes(calculation[calculation.length - 2])) {
+            calculatorScreen.value = numberBtns[i].value;
+        } else {
+            calculatorScreen.value += numberBtns[i].value;
+        }
+            
     });
 }
 
@@ -47,29 +53,26 @@ equalsBtn.addEventListener("click", () => {
 //LISTENER: attaches click event listener to the clear button
 clearBtn.addEventListener("click", () => {
     calculation = [];
-    a = undefined; 
+    a = undefined;
     calculatorScreen.value = "";
 });
 
 decimalBtn.addEventListener("click", () => {
     calculation.push(".");
     calculatorScreen.value += ".";
-})
-
+});
 
 //addition function
 function add(num1, num2) {
-    console.log('calculation Before', calculation);
+    console.log("calculation Before", calculation);
     calculation = calculation.slice(-1);
-    console.log('calculation After', calculation);
+    console.log("calculation After", calculation);
     return Number(num1) + Number(num2);
 }
 
 //subtraction function
 function subtract(num1, num2) {
-    console.log('calculation Before', calculation);
     calculation = calculation.slice(-1);
-    console.log('calculation After', calculation);
     return Number(num1) - Number(num2);
 }
 
@@ -97,10 +100,9 @@ function calculate() {
         .split(/[0-9\.]+/)
         .filter((x) => !!x);
 
-
-        console.log(calculation);
-        console.log(splitNumbers);
-        console.log(splitOperator);
+    console.log(calculation);
+    console.log(splitNumbers);
+    console.log(splitOperator);
 
     if (a === undefined) {
         a = Number(splitNumbers[0]);
