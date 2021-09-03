@@ -2,6 +2,7 @@
 const numberBtns = document.querySelectorAll(".number");
 const operatorBtns = document.querySelectorAll(".operator");
 const equalsBtn = document.querySelector(".equal-sign");
+const calculatorScreen = document.querySelector(".calculator-screen");
 
 //array dynamically holding the current expression
 let calculation = [];
@@ -72,10 +73,6 @@ function calculate() {
         .split(/[0-9]+/)
         .filter((x) => !!x);
 
-    console.log("calc", calculation);
-    console.log("sNums", splitNumbers);
-    console.log("sOper", splitOperator);
-
     if (a === undefined) {
         a = Number(splitNumbers[0]);
         splitNumbers = [];
@@ -91,18 +88,21 @@ function calculate() {
         switch (splitOperator[0]) {
             case "+":
                 a = add(a, splitNumbers[0]);
-                console.log("updated a", a);
+                calculatorScreen.value = a;
                 break;
             case "-":
                 a = subtract(a, splitNumbers[0]);
+                calculatorScreen.value = a;
                 break;
 
             case "*":
                 a = multiply(a, splitNumbers[0]);
+                calculatorScreen.value = a;
                 break;
 
             case "/":
                 a = divide(a, splitNumbers[0]);
+                calculatorScreen.value = a;
                 break;
         }
     }
