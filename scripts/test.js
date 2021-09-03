@@ -43,21 +43,24 @@ for (let i=0; i<operatorBtns.length; i++) {
 //addition function
 function add(num1, num2) {
     a = Number(num1) + Number(num2);
-}
-
+    calculation = calculation.slice(-1);  //grabbing that last operator that's essentially causing calculate() to run;
+    }
 //subtraction function
 function subtract(num1, num2) {
-    return Number(num1) - Number(num2);
+    a = Number(num1) - Number(num2);
+    calculation = calculation.slice(-1);
 }
 
 //multiplication function
 function multiply(num1, num2) {
-    return Number(num1) * Number(num2);
+    a = Number(num1) * Number(num2);
+    calculation = calculation.slice(-1);
 }
 
 //division function
 function divide(num1, num2) {
-    return Number(num1) / Number(num2);
+    a = Number(num1) / Number(num2);
+    calculation = calculation.slice(-1);
 }
 
 //alerts the user when the equals sign is 'clicked'; Nested inside a 'click' eventlistener
@@ -65,31 +68,37 @@ function calculate() {
     //alert(`The ${equalsElem} sign was pressed`);
     splitNumbers = calculation.join("").split(/\+|-|\*|\//g).filter(x => !!x);
     splitOperator = calculation.join("").split(/[0-9]+/).filter(x => !!x);
-        console.log(calculation)
-        console.log(splitNumbers);
-        console.log(splitOperator);
+        
+        console.log("calc", calculation)
+        console.log("sNums", splitNumbers);
+        console.log("sOper", splitOperator);
 
 
         if (a === 0) {
-            a = splitNumbers[0];
-            calculation = [];
+            a = Number(splitNumbers[0]);
             splitNumbers = [];
+            calculation.shift();
+            console.log(a);
             return;
-        }
-        console.log(calculation, splitNumbers, a);
+        } else {
 
-        switch(calculation[0]) {
-            case '+':
-                add(a, calculation[1]);
-            
-            case '-':
-                subtract(a, calculation[1]);
-            
-            case '*':
-                multiply(a, calculation[1]);
-            
-            case '/':
-                divide(a, calculation[1]);
+            switch(splitOperator[0]) {
+                case '+':
+                    //splitOperator = [];
+                    add(a, splitNumbers[0]);
+                
+                case '-':
+                    //splitOperator = [];
+                    subtract(a, splitNumbers[0]);
+                
+                case '*':
+                    //splitOperator = [];
+                    multiply(a, splitNumbers[0]);
+                
+                case '/':
+                    //splitOperator = [];
+                    divide(a, splitNumbers[0]);
+        }
         }
     }
 
@@ -104,7 +113,7 @@ equalsBtn.addEventListener('click', () => {
 function finalCalculation(equalsElem) {
     //alert(`The ${equalsElem} sign was pressed`);
     calculate();
-    return console.log(result);
+    return console.log(a);
 }
 
 console.log(result)
