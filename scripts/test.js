@@ -25,6 +25,7 @@ function pushOperator(operElem) {
 for (let i = 0; i < numberBtns.length; i++) {
     numberBtns[i].addEventListener("click", () => {
         pushNumber(numberBtns[i].value);
+        calculatorScreen.value += numberBtns[i].value;
     });
 }
 
@@ -32,20 +33,22 @@ for (let i = 0; i < numberBtns.length; i++) {
 for (let i = 0; i < operatorBtns.length; i++) {
     operatorBtns[i].addEventListener("click", () => {
         pushOperator(operatorBtns[i].value);
+        calculatorScreen.value += operatorBtns[i].value;
         calculate();
     });
 }
 
-//LISTENER: attaches a click eventlistener to the equalsBtn
+//LISTENER: attaches a click eventlistener to the equals button
 equalsBtn.addEventListener("click", () => {
     finalCalculation(equalsBtn.value);
 });
 
+//LISTENER: attaches click event listener to the clear button
 clearBtn.addEventListener("click", () => {
     calculations = [];
     a = undefined; 
     calculatorScreen.value = "";
-})
+});
 
 
 //addition function
