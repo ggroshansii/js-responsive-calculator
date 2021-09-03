@@ -3,24 +3,16 @@ const numberBtns = document.querySelectorAll(".number");
 const operatorBtns = document.querySelectorAll(".operator");
 const equalsBtn = document.querySelector(".equal-sign");
 const calculatorScreen = document.querySelector(".calculator-screen");
+const clearBtn = document.querySelector(".clear");
 
 //array dynamically holding the current expression
 let calculation = [];
 let a;
-let splitOperator;
-let splitNumbers;
 
 //alerts the user of the number that is 'clicked'; Nested inside a 'click' eventlistener
 function pushNumber(numElem) {
     //alert(`You have clicked number ${numElem}`)
     calculation.push(numElem);
-}
-
-//loops through the number buttons nodelist (.number) and attaches 'click' eventlistener to each node
-for (let i = 0; i < numberBtns.length; i++) {
-    numberBtns[i].addEventListener("click", () => {
-        pushNumber(numberBtns[i].value);
-    });
 }
 
 //alerts the user of the operator that is 'clicked'; Nested inside a 'click' eventlistener
@@ -29,13 +21,32 @@ function pushOperator(operElem) {
     calculation.push(operElem);
 }
 
-//loops through the operator buttons nodelist (.operator) and attaches 'click' eventlistener to each node
+//LISTENER: loops through the number buttons nodelist (.number) and attaches 'click' eventlistener to each node
+for (let i = 0; i < numberBtns.length; i++) {
+    numberBtns[i].addEventListener("click", () => {
+        pushNumber(numberBtns[i].value);
+    });
+}
+
+//LISTENER: loops through the operator buttons nodelist (.operator) and attaches 'click' eventlistener to each node
 for (let i = 0; i < operatorBtns.length; i++) {
     operatorBtns[i].addEventListener("click", () => {
         pushOperator(operatorBtns[i].value);
         calculate();
     });
 }
+
+//LISTENER: attaches a click eventlistener to the equalsBtn
+equalsBtn.addEventListener("click", () => {
+    finalCalculation(equalsBtn.value);
+});
+
+clearBtn.addEventListener("click", () => {
+    calculations = [];
+    a = undefined; 
+    calculatorScreen.value = "";
+})
+
 
 //addition function
 function add(num1, num2) {
@@ -64,11 +75,11 @@ function divide(num1, num2) {
 //alerts the user when the equals sign is 'clicked'; Nested inside a 'click' eventlistener
 function calculate() {
     //alert(`The ${equalsElem} sign was pressed`);
-    splitNumbers = calculation
+    let splitNumbers = calculation
         .join("")
         .split(/\+|-|\*|\//g)
         .filter((x) => !!x);
-    splitOperator = calculation
+    let splitOperator = calculation
         .join("")
         .split(/[0-9]+/)
         .filter((x) => !!x);
@@ -79,7 +90,6 @@ function calculate() {
         //This loop is going to take off the first number recieved -- loop needed for multi-digit numbers
         for (let i = calculation.length - 1; i >= 0; i--) {
             if ("0123456789".includes(calculation[i])) {
-                console.log(calculation[i]);
                 calculation.splice(i, 1);
             }
         }
@@ -108,10 +118,6 @@ function calculate() {
     }
 }
 
-//attaches a click eventlistener to the equalsBtn
-equalsBtn.addEventListener("click", () => {
-    finalCalculation(equalsBtn.value);
-});
 
 function finalCalculation(equalsElem) {
     //alert(`The ${equalsElem} sign was pressed`);
