@@ -7,9 +7,7 @@ const equalsBtn = document.querySelector(".equal-sign");
 
 //array dynamically holding the current expression
 let calculation = []; 
-let result = 0;
 let a;
-let b = 0;
 let splitOperator;
 let splitNumbers;
 
@@ -78,18 +76,20 @@ function calculate() {
         if (a === undefined) {
             a = Number(splitNumbers[0]);
             splitNumbers = [];
-            calculation.shift();
-            console.log(a);
+            //This loop is going to take off the first number recieved -- loop needed for multi-digit numbers
+            for (let i = calculation.length - 1; i >= 0; i--) {
+                if ('0123456789'.includes(calculation[i])) {
+                    console.log(calculation[i]);
+                    calculation.splice(i, 1)
+            }
+            }
             return;
         } else {
 
             switch(splitOperator[0]) {
                 case "+":
-                    console.log('ADDING WORKING');
-                    console.log('in switch', a);
-                    console.log('other argument', Number(splitNumbers[0]));
                      a = add(a, splitNumbers[0]);
-                    console.log("a after switch", a);
+
                     break;
                 case '-':
                     subtract(a, splitNumbers[0]);
@@ -117,4 +117,3 @@ function finalCalculation(equalsElem) {
     return console.log(a)
 }
 
-console.log(result)
