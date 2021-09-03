@@ -8,7 +8,7 @@ const equalsBtn = document.querySelector(".equal-sign");
 //array dynamically holding the current expression
 let calculation = []; 
 let result = 0;
-let a = 0;
+let a;
 let b = 0;
 let splitOperator;
 let splitNumbers;
@@ -42,9 +42,10 @@ for (let i=0; i<operatorBtns.length; i++) {
 
 //addition function
 function add(num1, num2) {
-    a = Number(num1) + Number(num2);
     calculation = calculation.slice(-1);  //grabbing that last operator that's essentially causing calculate() to run;
+    return Number(num1) + Number(num2);
     }
+
 //subtraction function
 function subtract(num1, num2) {
     a = Number(num1) - Number(num2);
@@ -74,7 +75,7 @@ function calculate() {
         console.log("sOper", splitOperator);
 
 
-        if (a === 0) {
+        if (a === undefined) {
             a = Number(splitNumbers[0]);
             splitNumbers = [];
             calculation.shift();
@@ -83,20 +84,20 @@ function calculate() {
         } else {
 
             switch(splitOperator[0]) {
-                case '+':
-                    //splitOperator = [];
-                    add(a, splitNumbers[0]);
-                
+                case "+":
+                    console.log('ADDING WORKING');
+                    console.log('in switch', a);
+                    console.log('other argument', Number(splitNumbers[0]));
+                     a = add(a, splitNumbers[0]);
+                    console.log("a after switch", a);
+                    break;
                 case '-':
-                    //splitOperator = [];
                     subtract(a, splitNumbers[0]);
                 
                 case '*':
-                    //splitOperator = [];
                     multiply(a, splitNumbers[0]);
                 
                 case '/':
-                    //splitOperator = [];
                     divide(a, splitNumbers[0]);
         }
         }
@@ -113,7 +114,7 @@ equalsBtn.addEventListener('click', () => {
 function finalCalculation(equalsElem) {
     //alert(`The ${equalsElem} sign was pressed`);
     calculate();
-    return console.log(a);
+    return console.log(a)
 }
 
 console.log(result)
