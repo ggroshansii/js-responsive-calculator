@@ -46,20 +46,23 @@ function add(num1, num2) {
 
 //subtraction function
 function subtract(num1, num2) {
-    a = Number(num1) - Number(num2);
     calculation = calculation.slice(-1);
+    return Number(num1) - Number(num2);
+
 }
 
 //multiplication function
 function multiply(num1, num2) {
-    a = Number(num1) * Number(num2);
     calculation = calculation.slice(-1);
+    return Number(num1) * Number(num2);
+
 }
 
 //division function
 function divide(num1, num2) {
-    a = Number(num1) / Number(num2);
     calculation = calculation.slice(-1);
+    return Number(num1) / Number(num2);
+
 }
 
 //alerts the user when the equals sign is 'clicked'; Nested inside a 'click' eventlistener
@@ -89,16 +92,19 @@ function calculate() {
             switch(splitOperator[0]) {
                 case "+":
                      a = add(a, splitNumbers[0]);
-
+                    console.log("updated a", a);
                     break;
                 case '-':
-                    subtract(a, splitNumbers[0]);
+                    a = subtract(a, splitNumbers[0]);
+                    break;
                 
                 case '*':
-                    multiply(a, splitNumbers[0]);
+                    a = multiply(a, splitNumbers[0]);
+                    break;
                 
                 case '/':
-                    divide(a, splitNumbers[0]);
+                    a = divide(a, splitNumbers[0]);
+                    break;
         }
         }
     }
