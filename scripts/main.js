@@ -6,7 +6,7 @@ const equalsBtn = document.querySelector(".equal-sign");
 
 //array dynamically holding the current expression
 let calculation = []; 
-let result;
+let result = 0;
 let splitOperator;
 
 //alerts the user of the number that is 'clicked'; Nested inside a 'click' eventlistener
@@ -32,7 +32,6 @@ function pushOperator(operElem) {
 for (let i=0; i<operatorBtns.length; i++) {
     operatorBtns[i].addEventListener('click', () => {
         pushOperator(operatorBtns[i].value);
-        console.log(calculation)
         expressionCheck();
     })
 }
@@ -40,8 +39,8 @@ for (let i=0; i<operatorBtns.length; i++) {
 //addition function
 function add(num1, num2) {
     let outcome = Number(num1) + Number(num2);
-    calculations = [];
-    splitOperator.slice(1)
+    console.log("outcome", outcome);
+    calculation = [];
     return result += outcome;
 }
 
@@ -66,25 +65,27 @@ function calculate(equalsElem) {
     let expressionString = calculation.join("");
     let splitNumbers = expressionString.split(/\+|-|\*|\//g);
     let splitOperator = expressionString.split(/[0-9]+/).slice(1,-1);
-    
-    for (let i = 0; i < splitOperator.length; i++) {
-        switch(splitOperator) {
+    console.log(splitNumbers[0], splitNumbers[1]);
+    console.log(typeof splitNumbers[0], typeof splitNumbers[1]);
+
+    console.log(splitOperator);
+        switch(splitOperator[0]) {
             case '+':
-                add([splitNumbers[0], splitNumbers[1]]);
+                add(splitNumbers[0], splitNumbers[1]);
             
             case '-':
-                subtract([splitNumbers[0], splitNumbers[1]]);
+                subtract(splitNumbers[0], splitNumbers[1]);
             
             case '*':
-                multiply([splitNumbers[0], splitNumbers[1]]);
+                multiply(splitNumbers[0], splitNumbers[1]);
             
             case '/':
-                divide([splitNumbers[0], splitNumbers[1]]);
+                divide(splitNumbers[0], splitNumbers[1]);
             
         }
     }
 
-}
+
 
 //attaches a click eventlistener to the equalsBtn
 equalsBtn.addEventListener('click', () => {
@@ -93,9 +94,8 @@ equalsBtn.addEventListener('click', () => {
 
 function expressionCheck() {
     if (calculation.length === 4 ) {
-        console.log(calculation);
+
         calculate();
-        console.log(result);
     }
 }
 
