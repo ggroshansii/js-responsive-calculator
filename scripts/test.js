@@ -41,7 +41,7 @@ for (let i = 0; i < numberBtns.length; i++) {
 for (let i = 0; i < operatorBtns.length; i++) {
     operatorBtns[i].addEventListener("click", () => {
         pushOperator(operatorBtns[i].value);
-        calculatorScreen.value += operatorBtns[i].value;
+        calculatorScreen.value = operatorBtns[i].value;
         calculate();
     });
 }
@@ -83,25 +83,26 @@ percentageBtn.addEventListener("click", () => {
 
 //LISTENER: attaches click event listener to decimal button
 //Not currently working
-plusMinusBtn.addEventListener('click', () => {
-    let splitNumbers = calculation
-    .join("")
-    .split(/\+|-|\*|\//g)
-    .filter((x) => !!x);
-    toggleNum = splitNumbers.pop();
-    for (let i = calculation.length - 1; i >= 0; i--) {
-        if (String(toggleNum).includes(calculation[i])) {
-            calculation.splice(i, 1);
-        }
-    }
-    if ('-'.includes(toggleNum)) {
-        toggleNum.replace("-", "");
-    } else {
-        toggleNum = "-" + toggleNum;
-    }
-    calculation.push(toggleNum);
-    calculatorScreen.value = toggleNum;
-})
+
+// plusMinusBtn.addEventListener('click', () => {
+//     let splitNumbers = calculation
+//     .join("")
+//     .split(/\+|-|\*|\//g)
+//     .filter((x) => !!x);
+//     toggleNum = splitNumbers.pop();
+//     for (let i = calculation.length - 1; i >= 0; i--) {
+//         if (String(toggleNum).includes(calculation[i])) {
+//             calculation.splice(i, 1);
+//         }
+//     }
+//     if ('-'.includes(toggleNum)) {
+//         toggleNum.replace("-", "");
+//     } else {
+//         toggleNum = "-" + toggleNum;
+//     }
+//     calculation.push(toggleNum);
+//     calculatorScreen.value = toggleNum;
+// })
 
 //addition function
 function add(num1, num2) {
