@@ -6,6 +6,8 @@ const equalsBtn = document.querySelector(".equal-sign");
 
 //array dynamically holding the current expression
 let calculation = []; 
+let result;
+let splitOperator;
 
 //alerts the user of the number that is 'clicked'; Nested inside a 'click' eventlistener
 function pushNumber(numElem) {
@@ -30,12 +32,17 @@ function pushOperator(operElem) {
 for (let i=0; i<operatorBtns.length; i++) {
     operatorBtns[i].addEventListener('click', () => {
         pushOperator(operatorBtns[i].value);
+        console.log(calculation)
+        expressionCheck();
     })
 }
 
 //addition function
 function add(num1, num2) {
-    return Number(num1) + Number(num2);
+    let outcome = Number(num1) + Number(num2);
+    calculations = [];
+    splitOperator.slice(1)
+    return result += outcome;
 }
 
 //subtraction function
@@ -49,19 +56,48 @@ function multiply(num1, num2) {
 }
 
 //division function
-function division(num1, num2) {
+function divide(num1, num2) {
     return Number(num1) / Number(num2);
 }
-
 
 //alerts the user when the equals sign is 'clicked'; Nested inside a 'click' eventlistener
 function calculate(equalsElem) { 
     //alert(`The ${equalsElem} sign was pressed`);
+    let expressionString = calculation.join("");
+    let splitNumbers = expressionString.split(/\+|-|\*|\//g);
+    let splitOperator = expressionString.split(/[0-9]+/).slice(1,-1);
+    
+    for (let i = 0; i < splitOperator.length; i++) {
+        switch(splitOperator) {
+            case '+':
+                add([splitNumbers[0], splitNumbers[1]]);
+            
+            case '-':
+                subtract([splitNumbers[0], splitNumbers[1]]);
+            
+            case '*':
+                multiply([splitNumbers[0], splitNumbers[1]]);
+            
+            case '/':
+                divide([splitNumbers[0], splitNumbers[1]]);
+            
+        }
+    }
 
-//console.log(str.split(/\+|-|\*|\//g));
 }
 
 //attaches a click eventlistener to the equalsBtn
 equalsBtn.addEventListener('click', () => {
     calculate(equalsBtn.value);
 });
+
+function expressionCheck() {
+    if (calculation.length === 4 ) {
+        console.log(calculation);
+        calculate();
+        console.log(result);
+    }
+}
+
+
+console.log(result)
