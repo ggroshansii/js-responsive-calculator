@@ -1,10 +1,12 @@
-//selecting specific groups of buttons (numbers, operators)
+//selecting specific groups of buttons (numbers, operators and other btns)
 const numberBtns = document.querySelectorAll(".number");
 const operatorBtns = document.querySelectorAll(".operator");
 const equalsBtn = document.querySelector(".equal-sign");
 const calculatorScreen = document.querySelector(".calculator-screen");
 const clearBtn = document.querySelector(".clear");
 const decimalBtn = document.querySelector(".decimal");
+const percentageBtn = document.querySelector(".percent");
+
 
 //array dynamically holding the current expression
 let calculation = [];
@@ -26,13 +28,11 @@ function pushOperator(operElem) {
 for (let i = 0; i < numberBtns.length; i++) {
     numberBtns[i].addEventListener("click", () => {
         pushNumber(numberBtns[i].value);
-        console.log("CALCULATION", calculation);
         if ("+-/*".includes(calculation[calculation.length - 2])) {
             calculatorScreen.value = numberBtns[i].value;
         } else {
             calculatorScreen.value += numberBtns[i].value;
         }
-            
     });
 }
 
@@ -57,16 +57,36 @@ clearBtn.addEventListener("click", () => {
     calculatorScreen.value = "";
 });
 
+//LISTENER: attaches click event listener to decimal button
 decimalBtn.addEventListener("click", () => {
     calculation.push(".");
     calculatorScreen.value += ".";
 });
 
+//LISTENER: attaches click event listener to decimal button
+percentageBtn.addEventListener("click", () => {
+    console.log(calculation);
+    let splitNumbers = calculation
+    .join("")
+    .split(/\+|-|\*|\//g)
+    .filter((x) => !!x);
+    addPercentNum = splitNumbers.pop();
+
+    console.log('calc before loop', calculation);
+    calculatorScreen.value = addPercentNum / 100;
+    for (let i = calculation.length - 1; i >= 0; i--) {
+        if (String(addPercentNum).includes(calculation[i])) {
+            console.log("working?")
+            calculation.splice(i, 1);
+        }
+    }
+    calculation.push(addPercentNum / 100);
+    console.log("calc after loop", calculation);
+});
+
 //addition function
 function add(num1, num2) {
-    console.log("calculation Before", calculation);
     calculation = calculation.slice(-1);
-    console.log("calculation After", calculation);
     return Number(num1) + Number(num2);
 }
 
