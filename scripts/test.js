@@ -4,6 +4,7 @@ const operatorBtns = document.querySelectorAll(".operator");
 const equalsBtn = document.querySelector(".equal-sign");
 const calculatorScreen = document.querySelector(".calculator-screen");
 const clearBtn = document.querySelector(".clear");
+const decimalBtn = document.querySelector(".decimal");
 
 //array dynamically holding the current expression
 let calculation = [];
@@ -45,21 +46,30 @@ equalsBtn.addEventListener("click", () => {
 
 //LISTENER: attaches click event listener to the clear button
 clearBtn.addEventListener("click", () => {
-    calculations = [];
+    calculation = [];
     a = undefined; 
     calculatorScreen.value = "";
 });
 
+decimalBtn.addEventListener("click", () => {
+    calculation.push(".");
+    calculatorScreen.value += ".";
+})
+
 
 //addition function
 function add(num1, num2) {
-    calculation = calculation.slice(-1); //grabbing that last operator that's essentially causing calculate() to run;
+    console.log('calculation Before', calculation);
+    calculation = calculation.slice(-1);
+    console.log('calculation After', calculation);
     return Number(num1) + Number(num2);
 }
 
 //subtraction function
 function subtract(num1, num2) {
+    console.log('calculation Before', calculation);
     calculation = calculation.slice(-1);
+    console.log('calculation After', calculation);
     return Number(num1) - Number(num2);
 }
 
@@ -84,15 +94,20 @@ function calculate() {
         .filter((x) => !!x);
     let splitOperator = calculation
         .join("")
-        .split(/[0-9]+/)
+        .split(/[0-9\.]+/)
         .filter((x) => !!x);
+
+
+        console.log(calculation);
+        console.log(splitNumbers);
+        console.log(splitOperator);
 
     if (a === undefined) {
         a = Number(splitNumbers[0]);
         splitNumbers = [];
         //This loop is going to take off the first number recieved -- loop needed for multi-digit numbers
         for (let i = calculation.length - 1; i >= 0; i--) {
-            if ("0123456789".includes(calculation[i])) {
+            if ("0123456789.".includes(calculation[i])) {
                 calculation.splice(i, 1);
             }
         }
@@ -120,7 +135,6 @@ function calculate() {
         }
     }
 }
-
 
 function finalCalculation(equalsElem) {
     //alert(`The ${equalsElem} sign was pressed`);
