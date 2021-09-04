@@ -8,20 +8,19 @@ const decimalBtn = document.querySelector(".decimal");
 const percentageBtn = document.querySelector(".percent");
 const plusMinusBtn = document.querySelector(".plus-minus");
 
-
 //array dynamically holding the current expression
 let calculation = [];
 let a;
 
 //alerts the user of the number that is 'clicked'; Nested inside a 'click' eventlistener
 function pushNumber(numElem) {
-    //alert(`You have clicked number ${numElem}`)
+    alert(`You have clicked number ${numElem}`);
     calculation.push(numElem);
 }
 
 //alerts the user of the operator that is 'clicked'; Nested inside a 'click' eventlistener
 function pushOperator(operElem) {
-    //alert(`You have clicked the ${operElem} operator`);
+    alert(`You have clicked the ${operElem} operator`);
     calculation.push(operElem);
 }
 
@@ -48,7 +47,7 @@ for (let i = 0; i < operatorBtns.length; i++) {
 
 //LISTENER: attaches a click eventlistener to the equals button
 equalsBtn.addEventListener("click", () => {
-    calculation.push("=")
+    calculation.push("=");
     calculate(equalsBtn.value);
 });
 
@@ -68,9 +67,9 @@ decimalBtn.addEventListener("click", () => {
 //LISTENER: attaches click event listener to decimal button
 percentageBtn.addEventListener("click", () => {
     let splitNumbers = calculation
-    .join("")
-    .split(/\+|-|\*|\//g)
-    .filter((x) => !!x);
+        .join("")
+        .split(/\+|-|\*|\//g)
+        .filter((x) => !!x);
     addPercentNum = splitNumbers.pop();
     for (let i = calculation.length - 1; i >= 0; i--) {
         if (String(addPercentNum).includes(calculation[i])) {
@@ -80,29 +79,6 @@ percentageBtn.addEventListener("click", () => {
     calculation.push(addPercentNum / 100);
     calculatorScreen.value = addPercentNum / 100;
 });
-
-//LISTENER: attaches click event listener to decimal button
-//Not currently working
-
-// plusMinusBtn.addEventListener('click', () => {
-//     let splitNumbers = calculation
-//     .join("")
-//     .split(/\+|-|\*|\//g)
-//     .filter((x) => !!x);
-//     toggleNum = splitNumbers.pop();
-//     for (let i = calculation.length - 1; i >= 0; i--) {
-//         if (String(toggleNum).includes(calculation[i])) {
-//             calculation.splice(i, 1);
-//         }
-//     }
-//     if ('-'.includes(toggleNum)) {
-//         toggleNum.replace("-", "");
-//     } else {
-//         toggleNum = "-" + toggleNum;
-//     }
-//     calculation.push(toggleNum);
-//     calculatorScreen.value = toggleNum;
-// })
 
 //addition function
 function add(num1, num2) {
@@ -130,15 +106,15 @@ function divide(num1, num2) {
 
 //alerts the user when the equals sign is 'clicked'; Nested inside a 'click' eventlistener
 function calculate(equalsElem = null) {
-
     //for looping checking if '=' was added to calculation array
     for (let i = 0; i < calculation.length; i++) {
-        if (calculation[i] === '=') {
+        if (calculation[i] === "=") {
             alert(`The ${equalsElem} sign was pressed`);
             calculation.pop();
-            }
-        }   
-     
+        }
+    }
+
+    //regex to breakdown calculation array into two separate arrays: numbers & operators
     let splitNumbers = calculation
         .join("")
         .split(/\+|-|\*|\//g)
@@ -148,6 +124,7 @@ function calculate(equalsElem = null) {
         .split(/[0-9\.]+/)
         .filter((x) => !!x);
 
+    //checking to see if calculate() needs to set the very first number entered; after first number is entered, the rest of the operators will be between an accumulator variable, the newest operator selected and a second number
     if (a === undefined) {
         a = Number(splitNumbers[0]);
         splitNumbers = [];
@@ -159,26 +136,26 @@ function calculate(equalsElem = null) {
         }
         return;
     } else {
+        //switch case for finding which operator function to fire
         switch (splitOperator[0]) {
             case "+":
                 a = add(a, splitNumbers[0]);
-                calculatorScreen.value = a.toFixed(2);
+                calculatorScreen.value = a;
                 break;
             case "-":
                 a = subtract(a, splitNumbers[0]);
-                calculatorScreen.value = a.toFixed(2);
+                calculatorScreen.value = a;
                 break;
 
             case "*":
                 a = multiply(a, splitNumbers[0]);
-                calculatorScreen.value = a.toFixed(2);
+                calculatorScreen.value = a;
                 break;
 
             case "/":
                 a = divide(a, splitNumbers[0]);
-                calculatorScreen.value = a.toFixed(2);
+                calculatorScreen.value = a;
                 break;
         }
     }
 }
-
