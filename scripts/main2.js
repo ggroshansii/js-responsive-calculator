@@ -13,6 +13,7 @@ let calculation = [];
 let accum = null;
 let lastNumPressed = null;
 let lastOpPressed = null;
+let calcRunning = true;
 
 //alerts the user of the number that is 'clicked'; Nested inside a 'click' eventlistener
 function pushNumber(numElem) {
@@ -76,11 +77,29 @@ decimalBtn.addEventListener("click", () => {
 });
 
 // //LISTENER: attaches click event listener to decimal button
-// percentageBtn.addEventListener("click", () => {
+percentageBtn.addEventListener("click", () => {
+    let currentNumLength = lastNumPressed.length 
+    calculation.splice(calculation.length-currentNumLength, currentNumLength);
+    lastNumPressed = String(lastNumPressed / 100);
+    calculation.push(lastNumPressed.split(""));
+    calculatorScreen.value = lastNumPressed;
+});
 
-//     calculation.push( / 100);
-//     calculatorScreen.value = addPercentNum / 100;
-// });
+plusMinusBtn.addEventListener("click", () => {
+    if (lastNumPressed.includes("-" && calcRunning)) {
+        lastNumPressed = lastNumPressed.slice(1);
+        let currentNumLength = lastNumPressed.length
+        calculation.splice(calculation.length - currentNumLength, currentNumLength);
+        calculation.push(lastNumPressed.split(""));
+        calculatorScreen.value = lastNumPressed;
+    } else if (calcRunning) {
+        let currentNumLength = lastNumPressed.length
+        calculation.splice(calculation.length - currentNumLength, currentNumLength);
+        lastNumPressed = "-" + lastNumPressed;
+        calculation.push(lastNumPressed.split(""));
+        calculatorScreen.value = lastNumPressed;
+    }
+});
 
 //addition function
 function add(num1, num2) {
@@ -106,9 +125,12 @@ function calculate(equalsElem = null) {
     //for looping checking if '=' was added to calculation array
     for (let i = 0; i < calculation.length; i++) {
         if (calculation[i] === "=") {
+            calcRunning = false;
             alert(`The ${equalsElem} sign was pressed`);
             findOperator();
             calculatorScreen.value = accum;
+            calculation = [];
+            calculation.push(accum);
             return;
         }
     }
