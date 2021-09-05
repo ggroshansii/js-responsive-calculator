@@ -31,16 +31,15 @@ for (let i = 0; i < numberBtns.length; i++) {
     numberBtns[i].addEventListener("click", () => {
         if (
             lastNumPressed !== null &&
-            "0123456789".includes(calculation[calculation.length - 1])
+            ".0123456789".includes(calculation[calculation.length - 1])
         ) {
-            pushNumber(numberBtns[i].value);
             lastNumPressed += numberBtns[i].value;
             calculatorScreen.value = lastNumPressed;
         } else {
-            pushNumber(numberBtns[i].value);
             lastNumPressed = numberBtns[i].value;
             calculatorScreen.value = lastNumPressed;
         }
+        pushNumber(numberBtns[i].value);
     });
 }
 
@@ -48,9 +47,9 @@ for (let i = 0; i < numberBtns.length; i++) {
 for (let i = 0; i < operatorBtns.length; i++) {
     operatorBtns[i].addEventListener("click", () => {
         pushOperator(operatorBtns[i].value);
+        calculatorScreen.value = operatorBtns[i].value;
         calculate();
         lastOpPressed = operatorBtns[i].value;
-        calculatorScreen.value = lastOpPressed;
     });
 }
 
@@ -60,32 +59,26 @@ equalsBtn.addEventListener("click", () => {
     calculate(equalsBtn.value);
 });
 
-// //LISTENER: attaches click event listener to the clear button
-// clearBtn.addEventListener("click", () => {
-//     calculation = [];
-//     a = undefined;
-//     calculatorScreen.value = "";
-// });
+//LISTENER: attaches click event listener to the clear button
+clearBtn.addEventListener("click", () => {
+    calculation = [];
+    accum = null;
+    lastNumPressed = null;
+    lastOpPressed = null;
+    calculatorScreen.value = "";
+});
 
 // //LISTENER: attaches click event listener to decimal button
-// decimalBtn.addEventListener("click", () => {
-//     calculation.push(".");
-//     calculatorScreen.value += ".";
-// });
+decimalBtn.addEventListener("click", () => {
+    calculation.push(".");
+    calculatorScreen.value += ".";
+    lastNumPressed += ".";
+});
 
-//LISTENER: attaches click event listener to decimal button
+// //LISTENER: attaches click event listener to decimal button
 // percentageBtn.addEventListener("click", () => {
-//     let splitNumbers = calculation
-//         .join("")
-//         .split(/\+|-|\*|\//g)
-//         .filter((x) => !!x);
-//     addPercentNum = splitNumbers.pop();
-//     for (let i = calculation.length - 1; i >= 0; i--) {
-//         if (String(addPercentNum).includes(calculation[i])) {
-//             calculation.splice(i, 1);
-//         }
-//     }
-//     calculation.push(addPercentNum / 100);
+
+//     calculation.push( / 100);
 //     calculatorScreen.value = addPercentNum / 100;
 // });
 
@@ -111,7 +104,6 @@ function divide(num1, num2) {
 
 function calculate(equalsElem = null) {
     //for looping checking if '=' was added to calculation array
-
     for (let i = 0; i < calculation.length; i++) {
         if (calculation[i] === "=") {
             alert(`The ${equalsElem} sign was pressed`);
@@ -120,7 +112,6 @@ function calculate(equalsElem = null) {
             return;
         }
     }
-
     //checking to see if calculate() needs to set the very first number entered; after first number is entered, the rest of the operators will be between an accumulator variable, the newest operator selected and a second number
     if (accum === null) {
         accum = lastNumPressed;
@@ -131,24 +122,24 @@ function calculate(equalsElem = null) {
     }
 }
 
-function findOperator(){
+function findOperator() {
     //switch case for finding which operator function to fire
     switch (lastOpPressed) {
         case "+":
             accum = add(accum, lastNumPressed);
-            console.log('accum', accum);
+            calculatorScreen.value = accum;
             break;
         case "-":
             accum = subtract(accum, lastNumPressed);
-            console.log('accum', accum);
+            calculatorScreen.value = accum;
             break;
         case "*":
             accum = multiply(accum, lastNumPressed);
-            console.log('accum', accum);
+            calculatorScreen.value = accum;
             break;
         case "/":
             accum = divide(accum, lastNumPressed);
-            console.log('accum', accum);
+            calculatorScreen.value = accum;
             break;
     }
 }
