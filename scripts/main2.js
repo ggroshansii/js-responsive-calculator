@@ -27,7 +27,6 @@ function pushOperator(operElem) {
     calculation.push(operElem);
 }
 
-
 //LISTENER: loops through the number buttons nodelist (.number) and attaches 'click' eventlistener to each node
 for (let i = 0; i < numberBtns.length; i++) {
     numberBtns[i].addEventListener("click", () => {
@@ -69,12 +68,12 @@ equalsBtn.addEventListener("click", () => {
 
 //LISTENER: attaches click event listener to the clear button
 clearBtn.addEventListener("click", () => {
-        calculation = [];
-        accum = null;
-        lastNumPressed = null;
-        lastOpPressed = null;
-        calcRunning = true;
-        calculatorScreen.value = "";
+    calculation = [];
+    accum = null;
+    lastNumPressed = null;
+    lastOpPressed = null;
+    calcRunning = true;
+    calculatorScreen.value = "";
 });
 
 // //LISTENER: attaches click event listener to decimal button
@@ -87,7 +86,7 @@ decimalBtn.addEventListener("click", () => {
 
 });
 
-// //LISTENER: attaches click event listener to decimal button
+//LISTENER: attaches click event listener to decimal button
 percentageBtn.addEventListener("click", () => {
     if (calcRunning) {
         let currentNumLength = lastNumPressed.length;
@@ -101,6 +100,7 @@ percentageBtn.addEventListener("click", () => {
     }
 });
 
+//LISTENER: attaches click event listener to the plus/minus button
 plusMinusBtn.addEventListener("click", () => {
     if (calcRunning) {
         if (lastNumPressed.includes("-")) {
@@ -125,8 +125,6 @@ plusMinusBtn.addEventListener("click", () => {
     }
 });
 
-
-
 //addition function
 function add(num1, num2) {
     return Number(num1) + Number(num2);
@@ -147,6 +145,7 @@ function divide(num1, num2) {
     return Number(num1) / Number(num2);
 }
 
+//calculates the accumulated variable (accum) with the next operator and number
 function calculate(equalsElem = null) {
     //for looping checking if '=' was added to calculation array
     for (let i = 0; i < calculation.length; i++) {
@@ -170,8 +169,8 @@ function calculate(equalsElem = null) {
     }
 }
 
+//finds value of lastOpPressed and executes corresponding operator function
 function findOperator() {
-    //switch case for finding which operator function to fire
     switch (lastOpPressed) {
         case "+":
             accum = add(accum, lastNumPressed);
