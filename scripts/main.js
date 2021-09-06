@@ -17,13 +17,13 @@ let calcRunning = true;
 
 //alerts the user of the number that is 'clicked'; Nested inside a 'click' eventlistener
 function pushNumber(numElem) {
-    //alert(`You have clicked number ${numElem}`);
+    alert(`You have clicked number ${numElem}`);
     calculation.push(numElem);
 }
 
 //alerts the user of the operator that is 'clicked'; Nested inside a 'click' eventlistener
 function pushOperator(operElem) {
-    //alert(`You have clicked the ${operElem} operator`);
+    alert(`You have clicked the ${operElem} operator`);
     calculation.push(operElem);
 }
 
