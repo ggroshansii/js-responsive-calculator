@@ -27,79 +27,105 @@ function pushOperator(operElem) {
     calculation.push(operElem);
 }
 
+
 //LISTENER: loops through the number buttons nodelist (.number) and attaches 'click' eventlistener to each node
 for (let i = 0; i < numberBtns.length; i++) {
     numberBtns[i].addEventListener("click", () => {
-        if (
-            lastNumPressed !== null &&
-            ".0123456789".includes(calculation[calculation.length - 1])
-        ) {
-            lastNumPressed += numberBtns[i].value;
-            calculatorScreen.value = lastNumPressed;
-        } else {
-            lastNumPressed = numberBtns[i].value;
-            calculatorScreen.value = lastNumPressed;
+        if (calcRunning) {
+            if (
+                lastNumPressed !== null &&
+                ".0123456789".includes(calculation[calculation.length - 1])
+            ) {
+                lastNumPressed += numberBtns[i].value;
+                calculatorScreen.value = lastNumPressed;
+            } else {
+                lastNumPressed = numberBtns[i].value;
+                calculatorScreen.value = lastNumPressed;
+            }
+            pushNumber(numberBtns[i].value);
         }
-        pushNumber(numberBtns[i].value);
     });
 }
 
 //LISTENER: loops through the operator buttons nodelist (.operator) and attaches 'click' eventlistener to each node
 for (let i = 0; i < operatorBtns.length; i++) {
     operatorBtns[i].addEventListener("click", () => {
-        pushOperator(operatorBtns[i].value);
-        calculatorScreen.value = operatorBtns[i].value;
-        calculate();
-        lastOpPressed = operatorBtns[i].value;
+        if (calcRunning) {
+            pushOperator(operatorBtns[i].value);
+            calculatorScreen.value = operatorBtns[i].value;
+            calculate();
+            lastOpPressed = operatorBtns[i].value;
+        }
     });
 }
 
 //LISTENER: attaches a click eventlistener to the equals button
 equalsBtn.addEventListener("click", () => {
-    calculation.push("=");
-    calculate(equalsBtn.value);
+    if (calcRunning) {
+        calculation.push("=");
+        calculate(equalsBtn.value);
+    }
 });
 
 //LISTENER: attaches click event listener to the clear button
 clearBtn.addEventListener("click", () => {
-    calculation = [];
-    accum = null;
-    lastNumPressed = null;
-    lastOpPressed = null;
-    calculatorScreen.value = "";
+        calculation = [];
+        accum = null;
+        lastNumPressed = null;
+        lastOpPressed = null;
+        calcRunning = true;
+        calculatorScreen.value = "";
 });
 
 // //LISTENER: attaches click event listener to decimal button
 decimalBtn.addEventListener("click", () => {
-    calculation.push(".");
-    calculatorScreen.value += ".";
-    lastNumPressed += ".";
+    if (calcRunning) {
+        calculation.push(".");
+        calculatorScreen.value += ".";
+        lastNumPressed += ".";
+    }
+
 });
 
 // //LISTENER: attaches click event listener to decimal button
 percentageBtn.addEventListener("click", () => {
-    let currentNumLength = lastNumPressed.length 
-    calculation.splice(calculation.length-currentNumLength, currentNumLength);
-    lastNumPressed = String(lastNumPressed / 100);
-    calculation.push(lastNumPressed.split(""));
-    calculatorScreen.value = lastNumPressed;
-});
-
-plusMinusBtn.addEventListener("click", () => {
-    if (lastNumPressed.includes("-" && calcRunning)) {
-        lastNumPressed = lastNumPressed.slice(1);
-        let currentNumLength = lastNumPressed.length
-        calculation.splice(calculation.length - currentNumLength, currentNumLength);
-        calculation.push(lastNumPressed.split(""));
-        calculatorScreen.value = lastNumPressed;
-    } else if (calcRunning) {
-        let currentNumLength = lastNumPressed.length
-        calculation.splice(calculation.length - currentNumLength, currentNumLength);
-        lastNumPressed = "-" + lastNumPressed;
+    if (calcRunning) {
+        let currentNumLength = lastNumPressed.length;
+        calculation.splice(
+            calculation.length - currentNumLength,
+            currentNumLength
+        );
+        lastNumPressed = String(lastNumPressed / 100);
         calculation.push(lastNumPressed.split(""));
         calculatorScreen.value = lastNumPressed;
     }
 });
+
+plusMinusBtn.addEventListener("click", () => {
+    if (calcRunning) {
+        if (lastNumPressed.includes("-")) {
+            lastNumPressed = lastNumPressed.slice(1);
+            let currentNumLength = lastNumPressed.length;
+            calculation.splice(
+                calculation.length - currentNumLength,
+                currentNumLength
+            );
+            calculation.push(lastNumPressed.split(""));
+            calculatorScreen.value = lastNumPressed;
+        } else {
+            let currentNumLength = lastNumPressed.length;
+            calculation.splice(
+                calculation.length - currentNumLength,
+                currentNumLength
+            );
+            lastNumPressed = "-" + lastNumPressed;
+            calculation.push(lastNumPressed.split(""));
+            calculatorScreen.value = lastNumPressed;
+        }
+    }
+});
+
+
 
 //addition function
 function add(num1, num2) {
